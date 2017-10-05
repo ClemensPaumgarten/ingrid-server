@@ -43,7 +43,7 @@
     "browserify": "^14.4.0",
     "buffer-equal": "^1.0.0",
     "chai": "^4.1.2",
-    "eslint": "^4.7.2",
+    "eslint": "^4.8.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^3.9.0",
     "gulp-sass": "^3.1.0",
