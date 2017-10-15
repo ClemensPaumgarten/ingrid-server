@@ -24,7 +24,6 @@ class UpstreamHandler {
 
     openConnection() {
         this.io.of( "upstream" ).on( "connection", ( socket ) => {
-
             ss( socket ).on( "upstream", ( stream ) => {
                 if ( this.downstreamHandler ) {
                     this.streamToClient( stream );

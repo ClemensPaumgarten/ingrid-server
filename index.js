@@ -1,9 +1,12 @@
-const upstream   = require( "./streams/upstream" );
-const downstream = require( "./streams/downstream" );
+"use strict";
+
 const express    = require( "express" );
 const http       = require( "http" );
 const socketIO   = require( "socket.io" );
 const path       = require( "path" );
+const controls   = require( "./controls/controls" );
+const upstream   = require( "./streams/upstream" );
+const downstream = require( "./streams/downstream" );
 
 const app = express();
 
@@ -24,10 +27,14 @@ let downstreamHandler = downstream.mount( io );
 
 upstreamHandler.setDownstreamHandler( downstreamHandler );
 
+controls.mount( io );
+
+
 httpServer.listen( 8080, function() {
     console.log( "Ingrid running on 8080" );
 } );
 
-exports.app = app;
+exports.app        = app;
 exports.httpServer = httpServer;
+exports.controls   = controls;
 

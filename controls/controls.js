@@ -1,34 +1,21 @@
 "use strict";
 
-let events = [];
 let cartSocket;
-
-exports.mount = function ( io ) {
-    openSockets ( io );
-};
 
 function openSockets ( io ) {
     io.of( "add-controls" ).on( "connection", socket => {
-        socket.on( "new-event", ( eventData ) => {
-            let firstEvent = events.length === 0;
-
-            events.push( eventData );
-
-            if ( firstEvent ) {
-                sendEventsToCart();
+        socket.on( "new-event", function( eventData ) {
+            if ( cartSocket ) {
+                cartSocket.emit( "next-event", eventData );
             }
         } );
     } );
 
-    io.of( "receive-controls" ).on ( "connection", socket => {
+    io.of( "receive-controls" ).on( "connection", function( socket ) {
         cartSocket = socket;
     } );
 }
 
-function sendEventsToCart () {
-    if ( cartSocket ) {
-        while ( events.length > 0 ) {
-            cartSocket.emit( "next-event", events.pop() );
-        }
-    }
-}
+exports.mount = function ( io ) {
+    openSockets ( io );
+};

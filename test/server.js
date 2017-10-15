@@ -87,9 +87,35 @@ describe( "Server", function() {
             ss( upsocket ).emit( "upstream", upstream );
 
             fs.createReadStream( filepath ).pipe( upstream );
-
         } );
-
     } );
 
+    describe( "receive and send conrols", function() {
+
+        let testEvent    = { key: "TEST KEY" };
+        let controlSender;
+
+        beforeEach( function ( done ) {
+            controlSender = io( "http://localhost:8080/add-controls" );
+            controlSender.on( "connect", done );
+        } );
+
+        afterEach( function () {
+            controlSender.disconnect();
+        } );
+
+        it( "should send emitted control to receiver", function ( done ) {
+            let controlReceiver = io( "http://localhost:8080/receive-controls" );
+
+            controlReceiver.on( "connect", function () {
+                controlReceiver.on( "next-event", function ( data ) {
+                    if ( data.key === "TEST KEY" ) {
+                        done();
+                    }
+                } );
+
+                controlSender.emit( "new-event", testEvent );
+            } );
+        } );
+    } );
 } );
