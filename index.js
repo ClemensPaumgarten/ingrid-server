@@ -29,9 +29,8 @@ upstreamHandler.setDownstreamHandler( downstreamHandler );
 
 controls.mount( io );
 
-
-httpServer.listen( 8080, function() {
-    console.log( "Ingrid running on 8080" );
+httpServer.listen( 6969, function() {
+    console.log( "Ingrid running on 6969" );
 } );
 
 exports.app        = app;
