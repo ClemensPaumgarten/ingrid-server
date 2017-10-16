@@ -3,10 +3,10 @@
 import io from "socket.io-client";
 import ss from "socket.io-stream";
 
-// const Origin = window.location.origin;
+const ORIGIN = window.location.origin;
 
 export  function stream () {
-    let socket = io( "http://localhost:8080/downstream", {} );
+    let socket = io( `http://${ORIGIN}/downstream`, {} );
     let image = document.querySelector( "#stream" );
 
     socket.on( "connect", function () {
